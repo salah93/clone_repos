@@ -5,11 +5,15 @@ import requests
 from bs4 import BeautifulSoup
 
 
+def clone_repos(user, directory):
+    gh_url = 'https://github.com/'
+    user_url = 'https://api.github.com/users/{user}/repos'.format(user=user)
+    page = requests.get(user_url)
+    if page.status_code >= 400:
+        raise Exception
+    repos = filter(lambda x: not x['fork'], page.json())
+    [subprocess.Popen(['git', 'clone', join(gh_url, i['full_name'])], cwd=expanduser(directory)) for i in repos]
+
+
 if __name__ == '__main__':
-    url = 'https://github.com/salah93?tab=repositories'
-    soup = BeautifulSoup(requests.get(url).content, 'html.parser')
-    clone_url = 'https://github.com/salah93'
-    all_sources = soup.find_all(class_='source')
-    repos = [repo.find('a').text.strip() for repo in all_sources]
-    clone_urls = [join(clone_url, repo) for repo in repos]
-    [subprocess.Popen(['git', 'clone', i], cwd=expanduser('~/Projects')) for i in clone_urls]
+    clone_repos('salah93', '~/Projects')
