@@ -2,7 +2,6 @@ import subprocess
 from os.path import join, expanduser
 
 import requests
-from bs4 import BeautifulSoup
 
 
 def clone_repos(user, directory):
