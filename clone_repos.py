@@ -1,5 +1,4 @@
 import argparse
-import json
 import subprocess
 from os import environ
 from os.path import join, expanduser
