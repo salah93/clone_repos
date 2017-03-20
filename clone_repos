@@ -1,7 +1,7 @@
 import argparse
 import subprocess
 from os import environ
-from os.path import join, expanduser
+from os.path import expanduser
 
 import requests
 
